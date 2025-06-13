@@ -1,0 +1,99 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Desbloqueie seu Presente!</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #74ebd5, #ACB6E5);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      color: #333;
+    }
+    .container {
+      background-color: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      text-align: center;
+    }
+    input[type="password"] {
+      padding: 10px;
+      margin: 10px 0;
+      width: 100%;
+      font-size: 16px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .hidden {
+      display: none;
+    }
+    .voucher {
+      margin-top: 20px;
+      font-size: 18px;
+      color: green;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Digite a senha para desbloquear seu presente</h1>
+    <input type="password" id="senhaInput" placeholder="Digite a senha...">
+    <button onclick="verificarSenha()">Enviar</button>
+    <p id="mensagem"></p>
+    <p id="dica" class="hidden">Dica: A senha contém apenas números.</p>
+    <div id="voucher" class="voucher hidden">
+      🎉 Parabéns! Aqui está seu <strong>voucher de viagem</strong>:<br>
+      <strong>CÓDIGO: VIAGEM2025</strong>
+    </div>
+  </div>
+
+  <script>
+    const senhaCorreta = "28062021"; // nova senha definida
+    let tentativas = 0;
+    let dicaLiberada = false;
+    let acertou = false;
+
+    function verificarSenha() {
+      if (acertou) return;
+
+      const senha = document.getElementById("senhaInput").value;
+      const mensagem = document.getElementById("mensagem");
+      const dica = document.getElementById("dica");
+
+      tentativas++;
+
+      if (senha === senhaCorreta) {
+        document.getElementById("voucher").classList.remove("hidden");
+        mensagem.textContent = "Senha correta!";
+        acertou = true;
+      } else {
+        if (tentativas < 3) {
+          mensagem.textContent = `Senha incorreta. Tentativa ${tentativas} de 2.`;
+        } else if (tentativas === 3) {
+          dica.classList.remove("hidden");
+          mensagem.textContent = "Senha incorreta. Dica liberada! Agora você tem mais 5 tentativas.";
+        } else if (tentativas < 8) {
+          mensagem.textContent = `Senha incorreta. Tentativa ${tentativas - 2} de 5.`;
+        } else {
+          mensagem.textContent = "Você excedeu o número de tentativas.";
+        }
+      }
+    }
+  </script>
+</body>
+</html>
