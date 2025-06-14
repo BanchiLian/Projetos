@@ -1,0 +1,130 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Desbloqueie seu Presente!</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #74ebd5, #ACB6E5);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      color: #333;
+    }
+    .container {
+      background-color: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      text-align: center;
+    }
+    input[type="password"] {
+      padding: 10px;
+      margin: 10px 0;
+      width: 100%;
+      font-size: 16px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .hidden {
+      display: none;
+    }
+    .voucher {
+      margin-top: 20px;
+      font-size: 18px;
+      color: green;
+    }
+    video {
+      margin-top: 20px;
+      max-width: 100%;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Digite a senha para desbloquear seu presente</h1>
+    <input type="password" id="senhaInput" placeholder="Digite a senha...">
+    <button onclick="verificarSenha()">Enviar</button>
+    <p id="mensagem"></p>
+    <p id="dica1" class="hidden">Dica 1: A senha contém apenas números.</p>
+    <p id="dica2" class="hidden">Dica 2: Essa senha é uma data.</p>
+    <p id="dica3" class="hidden">Dica 3: Essa data é o início de tudo.</p>
+    <div id="voucher" class="voucher hidden">
+      🎉 Parabéns, você foi presenteada para passar alguns dias em uma cabana. Para celebrar seus 4 anos de namoro.<br>
+      <strong>FELIZ 4 ANOS</strong>
+      já arrume as malas e se prepare para uma viagem inesquecível no dia 28/06. Te amo 8.
+      <video controls>
+        <source src="Video Cabana.mp4" type="video/mp4">
+        Seu navegador não suporta o elemento de vídeo.
+      </video>
+    </div>
+  </div>
+
+  <script>
+    const senhaCorreta = "28062021";
+    let tentativas = 0;
+    let acertou = false;
+
+    function verificarSenha() {
+      if (acertou || tentativas >= 11) return;
+
+      const senha = document.getElementById("senhaInput").value;
+      const mensagem = document.getElementById("mensagem");
+      const dica1 = document.getElementById("dica1");
+      const dica2 = document.getElementById("dica2");
+      const dica3 = document.getElementById("dica3");
+
+      tentativas++;
+
+      if (senha === senhaCorreta) {
+        document.getElementById("voucher").classList.remove("hidden");
+        mensagem.textContent = "Senha correta!";
+        acertou = true;
+      } else {
+        if (tentativas === 1 || tentativas === 2) {
+          mensagem.textContent = `Senha incorreta. Tentativa ${tentativas} de 2.`;
+          if (tentativas === 2) {
+            mensagem.textContent += " Você desbloqueou uma dica.";
+            dica1.classList.remove("hidden");
+          }
+        } else if (tentativas >= 3 && tentativas <= 4) {
+          const tentativaAtual = tentativas - 2;
+          mensagem.textContent = `Senha incorreta. Tentativa ${tentativaAtual} de 2 após a primeira dica.`;
+          if (tentativas === 4) {
+            mensagem.textContent += " Você desbloqueou mais uma dica.";
+            dica2.classList.remove("hidden");
+          }
+        } else if (tentativas >= 5 && tentativas <= 6) {
+          const tentativaAtual = tentativas - 4;
+          mensagem.textContent = `Senha incorreta. Tentativa ${tentativaAtual} de 2 após a segunda dica.`;
+          if (tentativas === 6) {
+            mensagem.textContent += " Você desbloqueou a última dica.";
+            dica3.classList.remove("hidden");
+          }
+        } else if (tentativas >= 7 && tentativas <= 11) {
+          const tentativaAtual = tentativas - 6;
+          mensagem.textContent = `Senha incorreta. Tentativa ${tentativaAtual} de 5 após a última dica.`;
+          if (tentativas === 11) {
+            mensagem.textContent = "Você excedeu o número máximo de tentativas.";
+          }
+        }
+      }
+    }
+  </script>
+</body>
+</html>
